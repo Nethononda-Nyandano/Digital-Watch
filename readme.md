@@ -1,4 +1,4 @@
-# Digital Watch with Real Battery API
+# Digital Watch with Real Battery API ⚡
 
 A responsive digital watch application that displays real-time battery information using the Web Battery API. This project features a modern UI with mobile-first design, real-time updates, and comprehensive battery monitoring.
 
@@ -43,13 +43,24 @@ A responsive digital watch application that displays real-time battery informati
 
 | Technology | Purpose | Version |
 |------------|---------|---------|
-| **HTML5** | Markup structure | Latest |
-| **CSS3** | Custom styling & animations | Latest |
-| **JavaScript (ES6+)** | Application logic & Battery API | ES2022 |
-| **Tailwind CSS** | Utility-first CSS framework | 3.3+ |
-| **Google Fonts** | Typography (Nabla, Stack Sans Text) | Latest |
-| **Font Awesome** | Icon library | 6.4.0 |
-| **Web Battery API** | Real battery information | Browser API |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="20" height="20"> **HTML5** | Markup structure | Latest |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="20" height="20"> **CSS3** | Custom styling & animations | Latest |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="20" height="20"> **JavaScript (ES6+)** | Application logic & Battery API | ES2022 |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="20" height="20"> **Tailwind CSS** | Utility-first CSS framework | 3.3+ |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width="20" height="20"> **Google Fonts** | Typography (Nabla, Stack Sans Text) | Latest |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fontawesome/fontawesome-original.svg" width="20" height="20"> **Font Awesome** | Icon library | 6.4.0 |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg" width="20" height="20"> **Web Battery API** | Real battery information | Browser API |
+
+### Tech Stack Icons
+```markdown
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="16" height="16"> **HTML5** - Semantic markup and structure
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="16" height="16"> **CSS3** - Styling, animations, and responsive design
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="16" height="16"> **JavaScript** - Dynamic functionality and Battery API
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="16" height="16"> **Tailwind CSS** - Rapid UI development
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width="16" height="16"> **Google Fonts** - Custom typography
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fontawesome/fontawesome-original.svg" width="16" height="16"> **Font Awesome** - Icon system
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg" width="16" height="16"> **Web APIs** - Browser-native functionality
+```
 
 ## 📁 Project Structure
 
@@ -78,14 +89,14 @@ digital-watch/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Modern web browser with Battery API support (Chrome, Edge, Opera)
-- For local development: any code editor
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg" width="16" height="16"> Modern web browser with Battery API support (Chrome, Edge, Opera)
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" width="16" height="16"> For local development: any code editor
 
 ### Installation & Usage
 
 1. **Clone or download** the repository:
    ```bash
-   git clone https://github.com/yourusername/digital-watch.git
+   git clone https://github.com/Nethononda-Nyandano/digital-watch.git
    ```
 
 2. **Open** `index.html` in a browser:
@@ -146,12 +157,13 @@ async function initBatteryAPI() {
 
 ## 🌐 Browser Compatibility
 
-| Feature | Chrome | Firefox | Safari | Edge | Opera |
-|---------|--------|---------|--------|------|-------|
-| **Battery API** | ✅ 38+ | ❌ (Removed) | ❌ | ✅ 79+ | ✅ 25+ |
-| **Flexbox/Grid** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **CSS Animations** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **ES6 Modules** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Browser | Battery API | Flexbox/Grid | CSS Animations | ES6+ |
+|---------|-------------|--------------|----------------|------|
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg" width="16" height="16"> Chrome | ✅ 38+ | ✅ | ✅ | ✅ |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firefox/firefox-original.svg" width="16" height="16"> Firefox | ❌ (Removed) | ✅ | ✅ | ✅ |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/safari/safari-original.svg" width="16" height="16"> Safari | ❌ | ✅ | ✅ | ✅ |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/edge/edge-original.svg" width="16" height="16"> Edge | ✅ 79+ | ✅ | ✅ | ✅ |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opera/opera-original.svg" width="16" height="16"> Opera | ✅ 25+ | ✅ | ✅ | ✅ |
 
 **Note**: Battery API works on HTTPS in production. For local development, it works on `localhost`.
 
@@ -198,20 +210,20 @@ async function initBatteryAPI() {
 
 ## 🔮 Future Enhancements
 
-Planned features for future versions:
-
-- [ ] Dark/light theme toggle
-- [ ] Multiple timezone support
-- [ ] Alarm and timer functionality
-- [ ] Battery history chart
-- [ ] PWA installation support
-- [ ] Offline capability
-- [ ] Customizable themes
-- [ ] Voice time announcements
+| Status | Feature | Description |
+|--------|---------|-------------|
+| ⏳ | Dark/light theme toggle | User preference based themes |
+| ⏳ | Multiple timezone support | Display multiple time zones |
+| ⏳ | Alarm and timer functionality | Additional time features |
+| ⏳ | Battery history chart | Graph of battery usage over time |
+| ⏳ | PWA installation support | Install as progressive web app |
+| ⏳ | Offline capability | Work without internet connection |
+| ⏳ | Customizable themes | User-defined color schemes |
+| ⏳ | Voice time announcements | Accessibility feature |
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how:
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="16" height="16"> Contributions are welcome! Here's how:
 
 1. **Fork** the repository
 2. **Create** a feature branch (`git checkout -b feature/AmazingFeature`)
@@ -227,9 +239,9 @@ Contributions are welcome! Here's how:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/license/license-plain.svg" width="16" height="16"> This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - **Google Fonts** for the Nabla typeface
 - **Tailwind CSS** for the utility-first framework
@@ -241,9 +253,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For questions or feedback:
 
-- **GitHub Issues**: [Open an issue](https://github.com/Nethononda-Nyandano/digital-watch/issues)
-- **Email**: nyandanonethononda8@gmail.com
-  
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" width="16" height="16"> **GitHub Issues**: [Open an issue](https://github.com/Nethononda-Nyandano/digital-watch/issues)
+- <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width="16" height="16"> **Email**: nyandanonethononda8@gmail.com
+
 
 ---
 
@@ -251,6 +263,4 @@ For questions or feedback:
 
 ---
 
-*Last Updated: November 2023 | Version: 1.0.0*
-
-
+*Last Updated: November 2023 | Version: 1.0.0 | Built with <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="14" height="14"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="14" height="14"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="14" height="14"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="14" height="14">*
