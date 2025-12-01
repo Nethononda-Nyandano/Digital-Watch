@@ -2,6 +2,8 @@
 
 A responsive digital watch application that displays real-time battery information using the Web Battery API. This project features a modern UI with mobile-first design, real-time updates, and comprehensive battery monitoring.
 
+<div align="center"> <img src="[https://via.placeholder.com/600x300/0ea5e9/ffffff?text=Watch+Preview+Demo](https://github.com/Nethononda-Nyandano/Digital-Watch/main/img/bannerr.png)" alt="Watch Preview" width="600"> </div>
+
 ![Digital Watch Preview](https://img.shields.io/badge/Demo-Live-brightgreen) ![Responsive](https://img.shields.io/badge/Responsive-Yes-blue) ![Battery-API](https://img.shields.io/badge/Battery_API-Implemented-green)
 
 ## ✨ Features
@@ -264,4 +266,5 @@ For questions or feedback:
 ---
 
 *Last Updated: November 2025 | Version: 1.0.0 | Built with <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" width="14" height="14"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="14" height="14"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="14" height="14"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="14" height="14">*
+
 
