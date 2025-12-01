@@ -4,20 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Watch</title>
-   
+    <title>Digital Watch with Battery Status</title>
+  
     <script src="https://cdn.tailwindcss.com"></script>
-   
+  
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Nabla:EDPT@155&family=Stack+Sans+Text:wght@200..700&display=swap"
         rel="stylesheet">
-   
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        
+        /* Custom styles for the watch */
         .watch-font {
             font-family: "Nabla", system-ui;
             font-optical-sizing: auto;
@@ -26,7 +26,7 @@
             font-variation-settings: "EDPT" 155, "EHLT" 12;
         }
         
-      
+        /* Responsive text sizing for the watch display */
         @media (max-width: 640px) {
             .watch-text {
                 font-size: 4rem;
@@ -45,20 +45,56 @@
             }
         }
         
-  
+   
         .time-digit {
             transition: all 0.3s ease;
         }
         
-
+      
+        .battery-full {
+            color: #4ade80; 
+        }
+        
+        .battery-good {
+            color: #60a5fa; 
+        }
+        
+        .battery-low {
+            color: #fbbf24; 
+        }
+        
+        .battery-critical {
+            color: #f87171; 
+        }
+        
+        .battery-charging {
+            color: #a78bfa;
+            animation: pulse 1.5s infinite;
+        }
+        
+       
         @keyframes pulse {
             0% { opacity: 0.7; }
             50% { opacity: 1; }
             100% { opacity: 0.7; }
         }
         
+       
+        @keyframes gentlePulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
         .pulse-animation {
-            animation: pulse 2s infinite;
+            animation: gentlePulse 3s infinite;
+        }
+        
+       
+        .battery-bar {
+            height: 6px;
+            border-radius: 3px;
+            transition: width 0.5s ease;
         }
     </style>
 </head>
@@ -67,8 +103,8 @@
     <header class="text-white bg-gradient-to-r from-sky-700 to-sky-800 p-4 shadow-lg">
         <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
             <div class="flex items-center mb-4 md:mb-0">
-                <img src="./img/watch.svg" alt="Watch Logo" class="h-10 w-10 mr-3">
-                <h1 class="text-2xl md:text-3xl font-bold">Digital Watch</h1>
+                <img src="./img/watch.svg" alt="Watch Icon" class="w-8 h-8 mr-3">
+                <h1 class="text-2xl md:text-3xl font-bold">Digital Watch with Real Battery API</h1>
             </div>
             
             <!-- Additional info for mobile/desktop -->
@@ -77,19 +113,19 @@
                     <i class="fas fa-mobile-alt mr-2"></i>
                     <span id="screen-size">Mobile</span>
                 </div>
-                <div class="flex items-center bg-sky-600 px-3 py-1 rounded-sm">
-                    <i class="fas fa-battery-three-quarters mr-2"></i>
-                    <span id="battery-status"></span>
+                <div id="battery-container" class="flex items-center bg-sky-600 px-3 py-1 rounded-sm">
+                    <i id="battery-icon" class="fas fa-battery-three-quarters mr-2"></i>
+                    <span id="battery-status">Loading...</span>
                 </div>
             </div>
         </div>
     </header>
     
     <main class="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-[80vh]">
-        <!-- Watch Display -->
+       
         <section class="watch-font text-white mb-8 w-full max-w-4xl">
             <div class="bg-gradient-to-b from-sky-800 to-sky-900 rounded-sm p-8 md:p-12 shadow-2xl border-2 border-sky-600">
-                <!-- Time display with responsive text size -->
+               
                 <div class="flex justify-center items-center watch-text mb-6">
                     <div id="hr" class="time-digit">00</div>
                     <div class="mx-2 md:mx-4">:</div>
@@ -98,16 +134,16 @@
                     <div id="sec" class="time-digit">00</div>
                 </div>
                 
-                
+                <!-- AM/PM indicator -->
                 <div class="flex justify-center mb-6">
                     <div id="ampm" class="bg-sky-700 text-white px-4 py-2 rounded-sm text-xl md:text-2xl font-bold">
                         AM
                     </div>
                 </div>
                 
-               
+         
                 <div class="flex flex-col md:flex-row justify-between items-center mt-8 pt-6 border-t border-sky-600">
-                 
+                
                     <div class="flex items-center mb-4 md:mb-0">
                         <div id="day-night-icon" class="mr-3">
                             <i class="fas fa-sun text-2xl text-yellow-300"></i>
@@ -133,41 +169,396 @@
             </div>
         </section>
         
+        <!-- Battery Status Panel -->
+        <div id="battery-info" class="bg-sky-800/50 backdrop-blur-sm rounded-sm p-6 w-full max-w-4xl shadow-lg mb-6">
+            <h2 class="text-white text-xl md:text-2xl font-bold mb-4 text-center flex items-center justify-center">
+                <i class="fas fa-battery-full mr-3"></i> Real Battery Status
+            </h2>
+            
+            <!-- Battery Level Visualization -->
+            <div class="mb-6">
+                <div class="flex justify-between text-white mb-2">
+                    <span>Battery Level:</span>
+                    <span id="battery-level-text">0%</span>
+                </div>
+                <div class="w-full bg-gray-700 rounded-sm h-4">
+                    <div id="battery-level-bar" class="bg-green-500 h-4 rounded-sm" style="width: 0%"></div>
+                </div>
+                
+                <!-- Time remaining indicators -->
+                <div id="time-remaining" class="mt-4 text-center text-sky-200">
+                    <p><i class="fas fa-clock mr-2"></i> <span id="discharge-time">Calculating...</span> until empty</p>
+                    <p id="charge-time-info" class="mt-1"><i class="fas fa-bolt mr-2"></i> <span id="charge-time">Calculating...</span> until full</p>
+                </div>
+            </div>
+            
+            <!-- Battery Details -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div id="charging-status" class="bg-sky-900/70 p-4 rounded-xl text-center">
+                    <i id="charging-icon" class="fas fa-plug text-2xl text-sky-300 mb-2"></i>
+                    <h3 class="text-white font-bold mb-1">Charging Status</h3>
+                    <p id="charging-text" class="text-sky-200 text-sm">Checking...</p>
+                </div>
+                
+                <div id="battery-health" class="bg-sky-900/70 p-4 rounded-xl text-center">
+                    <i id="health-icon" class="fas fa-heartbeat text-2xl text-green-300 mb-2"></i>
+                    <h3 class="text-white font-bold mb-1">Battery Health</h3>
+                    <p id="health-text" class="text-sky-200 text-sm">Good</p>
+                </div>
+                
+                <div id="api-status" class="bg-sky-900/70 p-4 rounded-xl text-center">
+                    <i class="fas fa-code text-2xl text-yellow-300 mb-2"></i>
+                    <h3 class="text-white font-bold mb-1">API Support</h3>
+                    <p id="api-text" class="text-sky-200 text-sm">Checking...</p>
+                </div>
+            </div>
+            
+            <!-- Battery API Info -->
+            <div class="mt-6 text-center text-sky-200 text-sm">
+                <p><i class="fas fa-info-circle mr-2"></i> Using the Navigator.getBattery() Web API for real battery data</p>
+            </div>
+        </div>
+        
         <!-- Controls/Info Panel -->
         <div class="bg-sky-800/50 backdrop-blur-sm rounded-2xl p-6 w-full max-w-4xl shadow-lg">
-            <h2 class="text-white text-xl md:text-2xl font-bold mb-4 text-center">Watch Information</h2>
+            <h2 class="text-white text-xl md:text-2xl font-bold mb-4 text-center">Watch Features</h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div class="bg-sky-900/70 p-4 rounded-xl text-center">
                     <i class="fas fa-mobile-alt text-2xl text-sky-300 mb-2"></i>
                     <h3 class="text-white font-bold mb-1">Fully Responsive</h3>
-                    <p class="text-sky-200 text-sm">Optimized for all screen sizes from mobile to desktop</p>
+                    <p class="text-sky-200 text-sm">Optimized for all screen sizes</p>
                 </div>
                 
                 <div class="bg-sky-900/70 p-4 rounded-xl text-center">
                     <i class="fas fa-battery-full text-2xl text-green-300 mb-2"></i>
-                    <h3 class="text-white font-bold mb-1">Battery Friendly</h3>
-                    <p class="text-sky-200 text-sm">Efficient updates to conserve battery life</p>
+                    <h3 class="text-white font-bold mb-1">Real Battery API</h3>
+                    <p class="text-sky-200 text-sm">Live battery status updates</p>
                 </div>
                 
                 <div class="bg-sky-900/70 p-4 rounded-xl text-center">
                     <i class="fas fa-sun text-2xl text-yellow-300 mb-2"></i>
                     <h3 class="text-white font-bold mb-1">Day/Night Mode</h3>
-                    <p class="text-sky-200 text-sm">Automatically detects day or night time</p>
+                    <p class="text-sky-200 text-sm">Automatically detects time of day</p>
                 </div>
             </div>
             
             <div class="mt-6 text-center text-sky-200 text-sm">
-                <p><i class="fas fa-sync-alt mr-2"></i> Time updates every second</p>
+                <p><i class="fas fa-sync-alt mr-2"></i> Time updates every second | Battery updates in real-time</p>
             </div>
         </div>
     </main>
     
     <footer class="text-center text-sky-300 p-4 mt-8 text-sm">
-        <p>Digital Watch &copy; <span id="current-year">2025</span> | Designed for Mobile & Desktop</p>
+        <p>Digital Watch with Battery API &copy; <span id="current-year">2023</span> | Uses Navigator.getBattery() Web API</p>
+        <p class="text-xs mt-1 opacity-75">Note: Battery API works on most modern browsers but requires HTTPS on some</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // DOM elements
+        const hr = document.getElementById("hr");
+        const min = document.getElementById("min");
+        const sec = document.getElementById("sec");
+        const ampm = document.getElementById("ampm");
+        const dateElement = document.getElementById("date");
+        const dayNight = document.getElementById("day-night");
+        const dayNightIcon = document.getElementById("day-night-icon");
+        const timezone = document.getElementById("timezone");
+        const screenSize = document.getElementById("screen-size");
+        const batteryStatus = document.getElementById("battery-status");
+        const batteryIcon = document.getElementById("battery-icon");
+        const batteryContainer = document.getElementById("battery-container");
+        const currentYear = document.getElementById("current-year");
+        
+        // Battery elements
+        const batteryLevelText = document.getElementById("battery-level-text");
+        const batteryLevelBar = document.getElementById("battery-level-bar");
+        const chargingStatus = document.getElementById("charging-text");
+        const chargingIcon = document.getElementById("charging-icon");
+        const dischargeTime = document.getElementById("discharge-time");
+        const chargeTime = document.getElementById("charge-time");
+        const chargeTimeInfo = document.getElementById("charge-time-info");
+        const apiText = document.getElementById("api-text");
+        const apiStatus = document.getElementById("api-status");
+        const healthText = document.getElementById("health-text");
+        const healthIcon = document.getElementById("health-icon");
+        
+        // Days and months arrays
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        
+        // Battery API object
+        let battery = null;
+        
+        // Update time function
+        function updateTime() {
+            let date = new Date();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+            
+            // Format time with leading zeros
+            hr.innerHTML = hours < 10 ? "0" + hours : hours;
+            min.innerHTML = minutes < 10 ? "0" + minutes : minutes;
+            sec.innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            
+            // Set AM/PM
+            const isPM = hours >= 12;
+            ampm.innerHTML = isPM ? "PM" : "AM";
+            
+            // Convert to 12-hour format for display if needed
+            const displayHours = hours % 12 || 12;
+            hr.innerHTML = displayHours < 10 ? "0" + displayHours : displayHours;
+            
+            // Update date
+            const dayName = days[date.getDay()];
+            const monthName = months[date.getMonth()];
+            const dayNum = date.getDate();
+            dateElement.innerHTML = `${dayName}, ${monthName} ${dayNum}`;
+            
+            // Update day/night indicator
+            const isDayTime = hours >= 6 && hours < 18;
+            dayNight.innerHTML = isDayTime ? "Day" : "Night";
+            
+            // Update day/night icon
+            const iconElement = dayNightIcon.querySelector("i");
+            if (isDayTime) {
+                iconElement.className = "fas fa-sun text-2xl text-yellow-300 pulse-animation";
+            } else {
+                iconElement.className = "fas fa-moon text-2xl text-blue-300 pulse-animation";
+            }
+            
+            // Update timezone
+            timezone.innerHTML = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        }
+        
+        // Update screen size indicator
+        function updateScreenSize() {
+            const width = window.innerWidth;
+            if (width < 640) {
+                screenSize.innerHTML = "Mobile";
+            } else if (width < 1024) {
+                screenSize.innerHTML = "Tablet";
+            } else {
+                screenSize.innerHTML = "Desktop";
+            }
+        }
+        
+        // REAL BATTERY API IMPLEMENTATION
+        async function initBatteryAPI() {
+            try {
+                // Check if the Battery API is supported
+                if ('getBattery' in navigator) {
+                    apiText.innerHTML = "Supported ✓";
+                    apiStatus.classList.remove('bg-sky-900/70');
+                    apiStatus.classList.add('bg-green-900/50');
+                    
+                    // Get battery information
+                    battery = await navigator.getBattery();
+                    
+                    // Update battery info initially
+                    updateBatteryInfo();
+                    
+                    // Set up event listeners for battery changes
+                    battery.addEventListener('levelchange', updateBatteryInfo);
+                    battery.addEventListener('chargingchange', updateBatteryInfo);
+                    battery.addEventListener('chargingtimechange', updateBatteryInfo);
+                    battery.addEventListener('dischargingtimechange', updateBatteryInfo);
+                    
+                } else {
+                    // Battery API not supported
+                    apiText.innerHTML = "Not Supported";
+                    apiStatus.classList.remove('bg-sky-900/70');
+                    apiStatus.classList.add('bg-red-900/50');
+                    
+                    batteryStatus.innerHTML = "API N/A";
+                    batteryLevelText.innerHTML = "N/A";
+                    chargingStatus.innerHTML = "Battery API not available";
+                    dischargeTime.innerHTML = "N/A";
+                    chargeTimeInfo.style.display = "none";
+                    
+                    // Hide battery info panel
+                    document.getElementById('battery-info').style.display = "none";
+                }
+            } catch (error) {
+                console.error("Error accessing Battery API:", error);
+                apiText.innerHTML = "Error Accessing";
+                apiStatus.classList.remove('bg-sky-900/70');
+                apiStatus.classList.add('bg-red-900/50');
+                
+                batteryStatus.innerHTML = "Error";
+                batteryLevelText.innerHTML = "Error";
+                chargingStatus.innerHTML = "Failed to access battery info";
+            }
+        }
+        
+        // Update battery information using the real Battery API
+        function updateBatteryInfo() {
+            if (!battery) return;
+            
+            // Get battery level (0 to 1)
+            const level = battery.level;
+            const percentage = Math.round(level * 100);
+            
+            // Update battery level text and bar
+            batteryLevelText.innerHTML = `${percentage}%`;
+            batteryLevelBar.style.width = `${percentage}%`;
+            
+            // Update battery icon and color based on level
+            updateBatteryIcon(percentage, battery.charging);
+            
+            // Update charging status
+            if (battery.charging) {
+                chargingStatus.innerHTML = "Currently Charging";
+                chargingIcon.className = "fas fa-bolt text-2xl text-purple-400 mb-2 battery-charging";
+                
+                // Update charge time
+                if (battery.chargingTime === Infinity) {
+                    chargeTime.innerHTML = "Unknown";
+                } else if (battery.chargingTime === 0) {
+                    chargeTime.innerHTML = "Fully Charged";
+                } else {
+                    const hours = Math.floor(battery.chargingTime / 3600);
+                    const minutes = Math.floor((battery.chargingTime % 3600) / 60);
+                    chargeTime.innerHTML = `${hours}h ${minutes}m`;
+                }
+                chargeTimeInfo.style.display = "block";
+                
+            } else {
+                chargingStatus.innerHTML = "Not Charging";
+                chargingIcon.className = "fas fa-plug text-2xl text-sky-300 mb-2";
+                chargeTimeInfo.style.display = "none";
+            }
+            
+            // Update discharge time
+            if (battery.dischargingTime === Infinity) {
+                dischargeTime.innerHTML = "Unknown";
+            } else {
+                const hours = Math.floor(battery.dischargingTime / 3600);
+                const minutes = Math.floor((battery.dischargingTime % 3600) / 60);
+                dischargeTime.innerHTML = `${hours}h ${minutes}m`;
+            }
+            
+            // Update battery health indicator (simulated based on level)
+            if (percentage >= 80) {
+                healthText.innerHTML = "Excellent";
+                healthIcon.className = "fas fa-heartbeat text-2xl text-green-400 mb-2";
+            } else if (percentage >= 50) {
+                healthText.innerHTML = "Good";
+                healthIcon.className = "fas fa-heartbeat text-2xl text-blue-400 mb-2";
+            } else if (percentage >= 20) {
+                healthText.innerHTML = "Fair";
+                healthIcon.className = "fas fa-heartbeat text-2xl text-yellow-400 mb-2";
+            } else {
+                healthText.innerHTML = "Poor";
+                healthIcon.className = "fas fa-heartbeat text-2xl text-red-400 mb-2";
+            }
+            
+            // Update battery status in header
+            let statusText = "";
+            if (battery.charging) {
+                statusText = `Charging (${percentage}%)`;
+            } else {
+                statusText = `${percentage}%`;
+            }
+            batteryStatus.innerHTML = statusText;
+        }
+        
+        // Update battery icon based on level and charging status
+        function updateBatteryIcon(percentage, isCharging) {
+            // Remove all battery color classes
+            batteryIcon.classList.remove('battery-full', 'battery-good', 'battery-low', 'battery-critical', 'battery-charging');
+            
+            // Determine icon and color based on battery level
+            let iconClass = "";
+            let colorClass = "";
+            
+            if (isCharging) {
+                colorClass = "battery-charging";
+                if (percentage >= 90) {
+                    iconClass = "fas fa-battery-full";
+                } else if (percentage >= 60) {
+                    iconClass = "fas fa-battery-three-quarters";
+                } else if (percentage >= 30) {
+                    iconClass = "fas fa-battery-half";
+                } else if (percentage >= 10) {
+                    iconClass = "fas fa-battery-quarter";
+                } else {
+                    iconClass = "fas fa-battery-empty";
+                }
+            } else {
+                if (percentage >= 80) {
+                    iconClass = "fas fa-battery-full";
+                    colorClass = "battery-full";
+                } else if (percentage >= 50) {
+                    iconClass = "fas fa-battery-three-quarters";
+                    colorClass = "battery-good";
+                } else if (percentage >= 20) {
+                    iconClass = "fas fa-battery-half";
+                    colorClass = "battery-low";
+                } else {
+                    iconClass = "fas fa-battery-quarter";
+                    colorClass = "battery-critical";
+                }
+            }
+            
+            // Apply the icon and color
+            batteryIcon.className = `${iconClass} mr-2 ${colorClass}`;
+            
+            // Also update the battery container background based on level
+            batteryContainer.classList.remove('bg-green-600', 'bg-blue-600', 'bg-yellow-600', 'bg-red-600', 'bg-purple-600');
+            
+            if (isCharging) {
+                batteryContainer.classList.add('bg-purple-600');
+            } else if (percentage >= 50) {
+                batteryContainer.classList.add('bg-green-600');
+            } else if (percentage >= 20) {
+                batteryContainer.classList.add('bg-yellow-600');
+            } else {
+                batteryContainer.classList.add('bg-red-600');
+            }
+        }
+        
+        // Initialize and update everything
+        function updateAll() {
+            updateTime();
+            updateScreenSize();
+        }
+        
+        // Set current year in footer
+        currentYear.innerHTML = new Date().getFullYear();
+        
+        // Initial calls
+        updateAll();
+        initBatteryAPI();
+        
+        // Update time every second
+        setInterval(updateAll, 1000);
+        
+        // Update screen size when window resizes
+        window.addEventListener("resize", updateScreenSize);
+        
+        // Add some interactivity to the time digits
+        document.querySelectorAll('.time-digit').forEach(digit => {
+            digit.addEventListener('click', function() {
+                this.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+        
+        // Battery info click handler
+        document.getElementById('battery-info').addEventListener('click', function() {
+            if (battery) {
+                updateBatteryInfo();
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 200);
+            }
+        });
+    </script>
 
 </body>
 
