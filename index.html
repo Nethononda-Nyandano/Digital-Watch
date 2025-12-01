@@ -4,196 +4,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To Do List</title>
-
-    <!-- Tailwind CSS -->
+    <title>Digital Watch</title>
+   
     <script src="https://cdn.tailwindcss.com"></script>
-
+   
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nabla:EDPT@155&family=Stack+Sans+Text:wght@200..700&display=swap"
+        rel="stylesheet">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-       
+        
+        .watch-font {
+            font-family: "Nabla", system-ui;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-variation-settings: "EDPT" 155, "EHLT" 12;
+        }
+        
+      
         @media (max-width: 640px) {
-            .mobile-hidden {
-                display: none;
+            .watch-text {
+                font-size: 4rem;
             }
+        }
+        
+        @media (min-width: 641px) and (max-width: 768px) {
+            .watch-text {
+                font-size: 6rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .watch-text {
+                font-size: 8rem;
+            }
+        }
+        
+  
+        .time-digit {
+            transition: all 0.3s ease;
+        }
+        
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
 
-<body class="bg-gray-100">
-  
-    <header class="bg-white p-5 shadow-md">
-        <h1 class="text-xl font-semibold text-gray-800 text-center">To Do List</h1>
-    </header>
-
-    
-    <main class="mt-10">
-        <div class="max-w-2xl mx-auto bg-white p-6 shadow-md rounded-md">
-
-            <form id="todo-form" class="flex gap-2 mb-6">
-                <input 
-                    type="text" 
-                    id="todo-input"
-                    class="flex-grow border border-gray-300 p-2 rounded-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    placeholder="Add a new task..."
-                >
-                <button 
-                    type="submit" 
-                    class="bg-purple-600 text-white px-4 py-2 rounded-sm hover:bg-purple-700"
-                >
-                    Add
-                </button>
-            </form>
-
+<body class="bg-gradient-to-b from-sky-900 to-sky-950 min-h-screen">
+    <header class="text-white bg-gradient-to-r from-sky-700 to-sky-800 p-4 shadow-lg">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <img src="./img/watch.svg" alt="Watch Logo" class="h-10 w-10 mr-3">
+                <h1 class="text-2xl md:text-3xl font-bold">Digital Watch</h1>
+            </div>
             
-            <div class="overflow-x-auto mobile-hidden">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="p-3 text-gray-700 text-sm font-semibold">Date Added</th>
-                            <th class="p-3 text-gray-700 text-sm font-semibold">Task</th>
-                            <th class="p-3 text-gray-700 text-sm font-semibold text-center w-28">Actions</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="todo-table-body">
-                       
-                    </tbody>
-                </table>
+            <!-- Additional info for mobile/desktop -->
+            <div class="flex flex-wrap justify-center gap-4 text-sm md:text-base">
+                <div class="flex items-center bg-sky-600 px-3 py-1 rounded-sm">
+                    <i class="fas fa-mobile-alt mr-2"></i>
+                    <span id="screen-size">Mobile</span>
+                </div>
+                <div class="flex items-center bg-sky-600 px-3 py-1 rounded-sm">
+                    <i class="fas fa-battery-three-quarters mr-2"></i>
+                    <span id="battery-status"></span>
+                </div>
             </div>
-
-           
-            <div id="mobile-list" class="sm:hidden">
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8 flex flex-col items-center justify-center min-h-[80vh]">
+        <!-- Watch Display -->
+        <section class="watch-font text-white mb-8 w-full max-w-4xl">
+            <div class="bg-gradient-to-b from-sky-800 to-sky-900 rounded-sm p-8 md:p-12 shadow-2xl border-2 border-sky-600">
+                <!-- Time display with responsive text size -->
+                <div class="flex justify-center items-center watch-text mb-6">
+                    <div id="hr" class="time-digit">00</div>
+                    <div class="mx-2 md:mx-4">:</div>
+                    <div id="min" class="time-digit">00</div>
+                    <div class="mx-2 md:mx-4">:</div>
+                    <div id="sec" class="time-digit">00</div>
+                </div>
                 
+                
+                <div class="flex justify-center mb-6">
+                    <div id="ampm" class="bg-sky-700 text-white px-4 py-2 rounded-sm text-xl md:text-2xl font-bold">
+                        AM
+                    </div>
+                </div>
+                
+               
+                <div class="flex flex-col md:flex-row justify-between items-center mt-8 pt-6 border-t border-sky-600">
+                 
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <div id="day-night-icon" class="mr-3">
+                            <i class="fas fa-sun text-2xl text-yellow-300"></i>
+                        </div>
+                        <div>
+                            <div id="day-night" class="font-bold">Day</div>
+                            <div class="text-sm text-sky-300">Status</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Current date -->
+                    <div class="text-center mb-4 md:mb-0">
+                        <div id="date" class="text-xl md:text-2xl font-bold">Monday, Jan 1</div>
+                        <div class="text-sm text-sky-300">Date</div>
+                    </div>
+                    
+                    <!-- Timezone info -->
+                    <div class="text-right">
+                        <div id="timezone" class="font-bold">Local Time</div>
+                        <div class="text-sm text-sky-300">Timezone</div>
+                    </div>
+                </div>
             </div>
-
+        </section>
+        
+        <!-- Controls/Info Panel -->
+        <div class="bg-sky-800/50 backdrop-blur-sm rounded-2xl p-6 w-full max-w-4xl shadow-lg">
+            <h2 class="text-white text-xl md:text-2xl font-bold mb-4 text-center">Watch Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-sky-900/70 p-4 rounded-xl text-center">
+                    <i class="fas fa-mobile-alt text-2xl text-sky-300 mb-2"></i>
+                    <h3 class="text-white font-bold mb-1">Fully Responsive</h3>
+                    <p class="text-sky-200 text-sm">Optimized for all screen sizes from mobile to desktop</p>
+                </div>
+                
+                <div class="bg-sky-900/70 p-4 rounded-xl text-center">
+                    <i class="fas fa-battery-full text-2xl text-green-300 mb-2"></i>
+                    <h3 class="text-white font-bold mb-1">Battery Friendly</h3>
+                    <p class="text-sky-200 text-sm">Efficient updates to conserve battery life</p>
+                </div>
+                
+                <div class="bg-sky-900/70 p-4 rounded-xl text-center">
+                    <i class="fas fa-sun text-2xl text-yellow-300 mb-2"></i>
+                    <h3 class="text-white font-bold mb-1">Day/Night Mode</h3>
+                    <p class="text-sky-200 text-sm">Automatically detects day or night time</p>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center text-sky-200 text-sm">
+                <p><i class="fas fa-sync-alt mr-2"></i> Time updates every second</p>
+            </div>
         </div>
     </main>
-
-
-    <footer class="bg-white fixed bottom-0 w-full text-center p-5 text-gray-300">
-        <p>Developed by Nethononda N</p>
+    
+    <footer class="text-center text-sky-300 p-4 mt-8 text-sm">
+        <p>Digital Watch &copy; <span id="current-year">2025</span> | Designed for Mobile & Desktop</p>
     </footer>
 
-    <script>
-          const todoTableBody = document.getElementById("todo-table-body");
-        const mobileList = document.getElementById("mobile-list");
-        const form = document.getElementById("todo-form");
-        const input = document.getElementById("todo-input");
-
-        function loadTasks() {
-            todoTableBody.innerHTML = "";
-            mobileList.innerHTML = "";
-            const keys = Object.keys(localStorage).sort();
-
-            keys.forEach(key => {
-                const task = localStorage.getItem(key);
-                addTaskDesktop(key, task);
-                addTaskMobile(key, task);
-            });
-        }
-
-        function addTaskDesktop(key, task) {
-            const tr = document.createElement("tr");
-            tr.className = "border-b hover:bg-gray-50";
-
-            tr.innerHTML = `
-                <td class="p-3 text-sm text-gray-600">
-                    ${new Date(parseInt(key)).toLocaleString()}
-                </td>
-
-                <td class="p-3 text-sm">
-                    <span class="task-text">${task}</span>
-                </td>
-
-                <td class="p-3 flex justify-center gap-2">
-                    <button class="edit-btn">
-                       <img src="img/edit.svg" class="w-5 h-5 hover:opacity-70"/>
-                    </button>
-
-                    <button class="delete-btn">
-                       <img src="./img/delete.svg" class="w-5 h-5 hover:opacity-70"/>
-                    </button>
-                </td>
-            `;
-
-            attachActions(tr, key);
-            todoTableBody.appendChild(tr);
-        }
-
-       function addTaskMobile(key, task) {
-            const card = document.createElement("div");
-            card.className = "border p-4 mb-3 rounded-sm shadow-sm bg-white";
-
-            card.innerHTML = `
-                <div class="text-xs text-gray-500 mb-1">
-                    ${new Date(parseInt(key)).toLocaleString()}
-                </div>
-
-                <div class="text-sm font-medium mb-2 task-text">${task}</div>
-
-                <div class="flex gap-4">
-                    <button class="edit-btn">
-                        <img src="edit.svg" class="w-6 h-6 hover:opacity-70"/>
-                    </button>
-
-                    <button class="delete-btn">
-                        <img src="delete.svg" class="w-6 h-6 hover:opacity-70"/>
-                    </button>
-                </div>
-            `;
-
-            attachActions(card, key);
-            mobileList.appendChild(card);
-        }
-
-       function attachActions(element, key) {
-
-            // DELETE
-            element.querySelector(".delete-btn").addEventListener("click", () => {
-                localStorage.removeItem(key);
-                loadTasks(); 
-            });
-
-            // EDIT inline
-            element.querySelector(".edit-btn").addEventListener("click", () => {
-                const span = element.querySelector(".task-text");
-                const oldText = span.textContent;
-
-                const inputBox = document.createElement("input");
-                inputBox.value = oldText;
-                inputBox.className = "border p-1 rounded-sm w-full";
-
-                span.replaceWith(inputBox);
-                inputBox.focus();
-
-                inputBox.addEventListener("blur", () => {
-                    const updated = inputBox.value.trim();
-
-                    if (updated) {
-                        localStorage.setItem(key, updated);
-                        span.textContent = updated;
-                    }
-
-                    inputBox.replaceWith(span);
-                });
-            });
-        }
-
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const task = input.value.trim();
-            if (!task) return;
-
-            const key = Date.now().toString();
-            localStorage.setItem(key, task);
-
-            loadTasks(); 
-            input.value = "";
-        });
-
-         loadTasks();
-    </script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
